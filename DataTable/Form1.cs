@@ -21,11 +21,12 @@ namespace DataTable
             dataGridView1.AutoGenerateColumns = false;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.DataSource = dataList;
+            dataGridView1.Visible = false;
 
             DataGridViewTextBoxColumn column0 = new DataGridViewTextBoxColumn();
-            column0.Name = "ZonedTimestamp";
-            column0.HeaderText = "Zoned timestamp";
-            column0.DataPropertyName = "ZonedTimestamp";
+            column0.Name = "Timestamp";
+            column0.HeaderText = "Timestamp";
+            column0.DataPropertyName = "Timestamp";
             dataGridView1.Columns.Add(column0);
 
             DataGridViewTextBoxColumn column1 = new DataGridViewTextBoxColumn();
@@ -69,6 +70,7 @@ namespace DataTable
             column7.HeaderText = "Gender";
             column7.DataPropertyName = "Gender";
             dataGridView1.Columns.Add(column7);
+
         }
 
         public void JsonParsing()
@@ -94,7 +96,7 @@ namespace DataTable
             {
                 DataT dataT = new DataT();
 
-                dataT.ZonedTimestamp = dobj[i]["ZonedTimestamp"].ToString();
+                dataT.Timestamp = dobj[i]["Timestamp"].ToString();
                 dataT.EventDescription = dobj[i]["EventDescription"].ToString();
                 dataT.ChannelId = dobj[i]["ChannelId"].ToString();
                 dataT.Age = dobj[i]["Age"].ToString();
@@ -118,11 +120,45 @@ namespace DataTable
                 dataList.Add(dataT);
             }
         }
+
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+            {
+                dataGridView1.Rows[i].Selected = false;
+                for (int j = 0; j < dataGridView1.ColumnCount; j++)
+                    if (dataGridView1.Rows[i].Cells[j].Value != null)
+                        if (dataGridView1.Rows[i].Cells[j].Value.ToString().Contains(date.Text) && login.Text == "root" && password.Text == "" && serverAdd.Text == "localhost" && date != null)
+                        {
+                            dataGridView1.Rows[i].Selected = true;
+                            dataGridView1.Visible = true;
+                            break;
+                        }
+                        else
+                        {
+                            label1.Visible = false;
+                            label2.Visible = false;
+                            label3.Visible = false;
+                            label4.Visible = false;
+
+                            login.Visible = false;
+                            password.Visible = false;
+                            serverAdd.Visible = false;
+                            date.Visible = false;
+
+                            button1.Visible = false;
+
+                        }
+            }
+
+        }
+
     }
 
     struct DataT
     {
-        public string ZonedTimestamp
+        public string Timestamp
         {
             get;
             set;
